@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task_management/core/constants.dart';
@@ -29,8 +30,9 @@ class PlusButton extends StatelessWidget {
           ),
         ),
         child: Icon(
-          Icons.add,
+          CupertinoIcons.plus,
           size: 40.sp,
+          weight: 30.sp,
           color: Colors.white,
         ),
       ),

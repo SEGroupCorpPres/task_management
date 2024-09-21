@@ -9,8 +9,18 @@ ThemeData lightTheme = ThemeData(
     titleTextStyle: GoogleFonts.rubik(fontSize: 22.sp, color: AppColors.titleColor),
   ),
   textTheme: TextTheme(
+    titleLarge: GoogleFonts.rubik(
+      fontSize: 24.sp,
+      color: Colors.white,
+      fontWeight: FontWeight.w500,
+    ),
     titleMedium: GoogleFonts.rubik(
       fontSize: 18.sp,
+      color: AppColors.titleColor,
+      fontWeight: FontWeight.w500,
+    ),
+    titleSmall: GoogleFonts.rubik(
+      fontSize: 13.sp,
       color: AppColors.titleColor,
       fontWeight: FontWeight.w500,
     ),

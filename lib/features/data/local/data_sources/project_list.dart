@@ -3,6 +3,7 @@ import 'package:task_management/features/data/local/models/project_model.dart';
 import 'package:task_management/generated/assets.dart';
 
 class ProjectListData {
+
   List<ProjectModel> projectList = [
     ProjectModel(
       title: 'Personal',
