@@ -6,36 +6,24 @@ part of 'task.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$TaskImpl _$$TaskImplFromJson(Map<String, dynamic> json) => _$TaskImpl(
+Task _$TaskFromJson(Map<String, dynamic> json) => Task(
+      id: (json['id'] as num).toInt(),
       title: json['title'] as String,
       description: json['description'] as String,
-      date: DateTime.parse(json['date'] as String),
+      date: (json['date'] as num).toInt(),
       address: json['address'] as String,
-      status: $enumDecode(_$StatusEnumMap, json['status']),
-      category: $enumDecode(_$CategoryEnumMap, json['category']),
+      status: json['status'] as String,
+      category: json['category'] as String,
+      isNotify: (json['isNotify'] as num).toInt(),
     );
 
-Map<String, dynamic> _$$TaskImplToJson(_$TaskImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$TaskToJson(Task instance) => <String, dynamic>{
+      'id': instance.id,
       'title': instance.title,
       'description': instance.description,
-      'date': instance.date.toIso8601String(),
+      'date': instance.date,
       'address': instance.address,
-      'status': _$StatusEnumMap[instance.status]!,
-      'category': _$CategoryEnumMap[instance.category]!,
+      'status': instance.status,
+      'category': instance.category,
+      'isNotify': instance.isNotify,
     };
-
-const _$StatusEnumMap = {
-  Status.inProgress: 'inProgress',
-  Status.completed: 'completed',
-  Status.canceled: 'canceled',
-};
-
-const _$CategoryEnumMap = {
-  Category.personal: 'personal',
-  Category.work: 'work',
-  Category.meeting: 'meeting',
-  Category.shopping: 'shopping',
-  Category.party: 'party',
-  Category.study: 'study',
-};

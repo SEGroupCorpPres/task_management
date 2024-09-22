@@ -3,6 +3,7 @@ class Assets {
   Assets._();
 
   static const String assetsImagesLogo = 'assets/images/logo.svg';
+  static const String iconsAdd = 'assets/icons/add.svg';
   static const String iconsBell = 'assets/icons/bell.svg';
   static const String iconsBriefcase = 'assets/icons/briefcase.svg';
   static const String iconsConfetti = 'assets/icons/confetti.svg';
@@ -14,6 +15,7 @@ class Assets {
   static const String iconsShoppingBasket = 'assets/icons/shopping_basket.svg';
   static const String iconsTrash = 'assets/icons/trash.svg';
   static const String iconsUser = 'assets/icons/user.svg';
+  static const String iconsXmark = 'assets/icons/xmark.svg';
   static const String imagesAppbarBg = 'assets/images/appbar_bg.png';
   static const String imagesBigEllipseBg = 'assets/images/big_ellipse_bg.png';
   static const String imagesBigRectangleBg = 'assets/images/big_rectangle_bg.png';

@@ -50,8 +50,11 @@ dependencies:
   google_fonts:
   flutter_svg: ^2.0.10+1
   grouped_list: ^6.0.0
-
-
+  solid_bottom_sheet: ^0.1.13
+  dart_date: ^1.4.0
+  date_time_format: ^2.0.1
+  jiffy: ^6.3.1
+  date_field: ^5.2.1
 
 dev_dependencies:
   flutter_test:

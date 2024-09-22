@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 class AppColors {
-  AppColors._();
+  // AppColors._();
 
   static const Color mainBg = Color(0xFFF9FCFF);
 
@@ -28,10 +28,33 @@ class AppColors {
   // Create Or Edit Task Screen
   static const Color addBtnLinearGradientStart = Color(0xFF7EB6FF);
   static const Color addBtnLinearGradientEnd = Color(0xFF5F87E7);
+
+  Color getTaskColor({required String category}) => _getTaskColor(category: category);
+
+  Color _getTaskColor({required String category}) {
+    switch (category) {
+      case 'work':
+        // TODO: Handle this case.
+        return AppColors.tegWorkBg;
+      case 'meeting':
+        // TODO: Handle this case.
+        return AppColors.tegMeetingBg;
+      case 'shopping':
+        // TODO: Handle this case.
+        return AppColors.tegShoppingBg;
+      case 'party':
+        // TODO: Handle this case.
+        return AppColors.tegPartyBg;
+      case 'study':
+        // TODO: Handle this case.
+        return AppColors.tegStudyBg;
+      default:
+        // TODO: Handle this case.
+        return AppColors.tegPersonalBg;
+    }
+  }
 }
 
 class AppSizes {
   AppSizes._();
-
-
 }

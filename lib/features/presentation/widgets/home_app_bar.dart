@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
-import 'package:task_management/features/data/local/models/task_model.dart';
+import 'package:task_management/features/data/local/models/task.dart';
 import 'package:task_management/generated/assets.dart';
 
 class HomeAppBar extends StatelessWidget {
@@ -16,14 +16,14 @@ class HomeAppBar extends StatelessWidget {
 
   final Size size;
   final bool? isBlank;
-  final TaskModel? task;
+  final Task? task;
 
   @override
   Widget build(BuildContext context) {
     String? formattedTime;
     if (task != null) {
       DateFormat timeFormat = DateFormat.jm('en_US');
-      formattedTime = timeFormat.format(task!.date);
+      formattedTime = timeFormat.format((DateTime.fromMillisecondsSinceEpoch(task!.date)));
     }
 
     return Stack(
@@ -102,8 +102,14 @@ class HomeAppBar extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           mainAxisSize: MainAxisSize.max,
                           children: [
-                            Icon(CupertinoIcons.xmark,color: Colors.white,),
-                            SvgPicture.asset(Assets.iconsBell, width: 80.w,),
+                            const Icon(
+                              CupertinoIcons.xmark,
+                              color: Colors.white,
+                            ),
+                            SvgPicture.asset(
+                              Assets.iconsBell,
+                              width: 80.w,
+                            ),
                           ],
                         )
                       ],
