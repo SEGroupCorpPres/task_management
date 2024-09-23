@@ -30,6 +30,15 @@ class GetTaskById {
     return await repository.getTaskById(id);
   }
 }
+class GetTaskByCategory {
+  final TaskRepositoryImpl repository;
+
+  GetTaskByCategory(this.repository);
+
+  Future<List<Task>> call(String category) async {
+    return await repository.getTaskByCategory(category);
+  }
+}
 
 class UpdateTask {
   final TaskRepositoryImpl repository;

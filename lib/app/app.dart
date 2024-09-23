@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:task_management/app/presentation/app/app_bloc.dart';
+import 'package:task_management/app/presentation/pages/app_flow.dart';
+import 'package:task_management/app/presentation/pages/intro_screen.dart';
 import 'package:task_management/core/theme.dart';
 import 'package:task_management/features/data/repositories/task_repository_impl.dart';
 import 'package:task_management/features/domain/use_cases/use_cases.dart';
 import 'package:task_management/features/presentation/bloc/task/task_bloc.dart';
-import 'package:task_management/features/presentation/pages/home_page.dart';
 
 class App extends StatelessWidget {
   final TaskRepositoryImpl taskRepositoryImpl;
@@ -18,6 +20,7 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => AppBloc()),
         BlocProvider(
           create: (context) => TaskBloc(
             getTasks: GetTasks(taskRepositoryImpl),
@@ -25,6 +28,7 @@ class App extends StatelessWidget {
             updateTask: UpdateTask(taskRepositoryImpl),
             deleteTask: DeleteTask(taskRepositoryImpl),
             getTaskById: GetTaskById(taskRepositoryImpl),
+            getTaskByCategory: GetTaskByCategory(taskRepositoryImpl),
           ),
         )
       ],
@@ -42,8 +46,8 @@ class App extends StatelessWidget {
             // ],
           );
         },
-        // child: IntroScreen(),
-        child: HomePage(),
+        child: AppFlow(),
+        // child: HomePage(),
       ),
     );
   }

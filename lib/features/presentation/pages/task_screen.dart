@@ -1,12 +1,16 @@
 import 'dart:developer';
+import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task_management/features/data/local/data_sources/project_list.dart';
+import 'package:task_management/features/data/local/models/category.dart';
 import 'package:task_management/features/data/local/models/project_model.dart';
 import 'package:task_management/features/data/local/models/task.dart';
 import 'package:task_management/features/presentation/bloc/task/task_bloc.dart';
+import 'package:task_management/features/presentation/pages/project_tasks_screen.dart';
 import 'package:task_management/features/presentation/widgets/home_app_bar.dart';
 import 'package:task_management/features/presentation/widgets/project_widget.dart';
 
@@ -22,14 +26,43 @@ class _TaskScreenState extends State<TaskScreen> {
   List<Task> _taskList = [];
   final List<int> _qtyList = List.generate(6, (index) => 0);
   bool _isBlank = true;
-  final List<VoidCallback> _onTapList = [
-    () {},
-    () {},
-    () {},
-    () {},
-    () {},
-    () {},
-  ];
+
+  void _navigateToProjectScreen(context, String category) {
+    Navigator.push(
+      context,
+      Platform.isIOS
+          ? CupertinoPageRoute(
+              builder: (_) => ProjectTasksScreen(
+
+                  ))
+          : MaterialPageRoute(
+              builder: (_) => ProjectTasksScreen(
+
+              ),
+            ),
+    );
+  }
+
+  List<VoidCallback> _onTapList(context) => [
+        () {
+          _navigateToProjectScreen(context, Category.personal.name);
+        },
+        () {
+          _navigateToProjectScreen(context, Category.work.name);
+        },
+        () {
+          _navigateToProjectScreen(context, Category.meeting.name);
+        },
+        () {
+          _navigateToProjectScreen(context, Category.shopping.name);
+        },
+        () {
+          _navigateToProjectScreen(context, Category.study.name);
+        },
+        () {
+          _navigateToProjectScreen(context, Category.personal.name);
+        },
+      ];
 
   void _getQty(List<Task> taskList) {
     for (Task task in taskList) {
@@ -56,7 +89,7 @@ class _TaskScreenState extends State<TaskScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    _projectList = ProjectListData().projectList(qtyList: _qtyList, onTapList: _onTapList);
+    _projectList = ProjectListData().projectList(qtyList: _qtyList, onTapList: _onTapList(context), context: context);
     super.initState();
   }
 
@@ -82,16 +115,21 @@ class _TaskScreenState extends State<TaskScreen> {
           padding: EdgeInsets.symmetric(horizontal: 20.w),
           child: SizedBox(
             width: size.width,
-            height: size.height - kBottomNavigationBarHeight.h - (!_isBlank ? 271.h : 160.h),
+            height: size.height - kBottomNavigationBarHeight.h - (!_isBlank ? 275.h : 160.h),
             child: SingleChildScrollView(
               child: BlocListener<TaskBloc, TaskState>(
                 listener: (context, state) {
                   // TODO: implement listener}
                   if (state is TaskLoaded) {
                     if (state.tasks.isNotEmpty) {
-                      _taskList = state.tasks;
+                      for (var task in state.tasks) {
+                        bool exist = _taskList.any((taskL) => taskL.id == task.id);
+                        if (!exist) {
+                          _taskList.add(task);
+                        }
+                      }
                       _getQty(_taskList);
-                      _projectList = ProjectListData().projectList(qtyList: _qtyList, onTapList: _onTapList);
+                      _projectList = ProjectListData().projectList(qtyList: _qtyList, onTapList: _onTapList(context), context: context);
                       _isBlank = false;
                     }
                   }

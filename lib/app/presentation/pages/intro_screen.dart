@@ -1,11 +1,25 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:task_management/app/app.dart';
+import 'package:task_management/app/presentation/app/app_bloc.dart';
 import 'package:task_management/core/constants.dart';
+import 'package:task_management/features/presentation/pages/home_page.dart';
 import 'package:task_management/generated/assets.dart';
 
 class IntroScreen extends StatefulWidget {
   const IntroScreen({super.key});
+  static Page page() => Platform.isIOS
+      ? const CupertinoPage(
+    child: IntroScreen(),
+  )
+      : const MaterialPage(
+    child: IntroScreen(),
+  );
 
   @override
   State<IntroScreen> createState() => _IntroScreenState();
@@ -45,7 +59,16 @@ class _IntroScreenState extends State<IntroScreen> {
           Flexible(
             child: TextButton(
               style: Theme.of(context).textButtonTheme.style,
-              onPressed: () {},
+              onPressed: () => context.read<AppBloc>().add(NavigateToHomePage()),
+    // Navigator.pushAndRemoveUntil(
+    //             context,
+    //             Platform.isIOS
+    //                 ? CupertinoPageRoute(builder: (_) => HomePage())
+    //                 : MaterialPageRoute(
+    //                     builder: (_) => HomePage(),
+    //                   ),
+    //             (value) => false,
+    //           ),
               child: Container(
                 width: 200.w,
                 height: 40.h,

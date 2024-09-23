@@ -60,6 +60,12 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Task _getLastTask({required List<Task> taskList}){
+    int currentDateMSE = DateTime.now().millisecondsSinceEpoch;
+    taskList.sort((task1, task2) => task1.compareTo(task2));
+    return taskList.first;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.sizeOf(context);
@@ -69,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
         HomeAppBar(
           size: size,
           isBlank: _isBlank,
-          task: _taskList.isEmpty ? null : _taskList.first,
+          task: _taskList.isEmpty ? null : _getLastTask(taskList: _taskList),
         ),
         BlocConsumer<TaskBloc, TaskState>(
           listener: (context, state) {
@@ -97,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return _taskList.isEmpty
                   ? const BlankScreen()
                   : Container(
-                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      padding: EdgeInsets.symmetric(horizontal: 10.w),
                       height: size.height - kBottomNavigationBarHeight.h - (!_isBlank ? 221.h : 160.h),
                       child: GroupedListView<Task, DateTime>(
                         physics: const BouncingScrollPhysics(),
@@ -136,7 +142,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               motion: const ScrollMotion(),
                               children: [
                                 SlidableAction(
-                                  onPressed: (context) {},
+                                  onPressed: (context) {
+
+                                  },
                                   backgroundColor: Colors.orangeAccent,
                                   foregroundColor: Colors.white,
                                   icon: CupertinoIcons.pen,
@@ -148,7 +156,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               motion: const ScrollMotion(),
                               children: [
                                 SlidableAction(
-                                  onPressed: (context) {},
+                                  onPressed: (context) {
+                                    context.read<TaskBloc>().add(DeleteExistingTask(id: task.id));
+                                    _taskList.remove(task);
+                                  },
                                   backgroundColor: CupertinoColors.destructiveRed,
                                   foregroundColor: Colors.white,
                                   icon: CupertinoIcons.trash,
@@ -162,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: AnimatedContainer(
                                 margin: EdgeInsets.symmetric(vertical: 5.h),
                                 duration: const Duration(milliseconds: 300),
-                                height: _isOnTap ? 100.h : 45.h,
+                                height: _isOnTap ? 100.h : 65.h,
                                 decoration: BoxDecoration(
                                   color: Colors.white,
                                   borderRadius: BorderRadius.circular(5.r),
@@ -179,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     AnimatedContainer(
                                       duration: const Duration(milliseconds: 300),
                                       width: 5.w,
-                                      height: _isOnTap ? 100.h : 45.h,
+                                      height: _isOnTap ? 100.h : 65.h,
                                       decoration: BoxDecoration(
                                         color: AppColors().getTaskColor(category: task.category),
                                         borderRadius: BorderRadius.horizontal(
@@ -193,7 +204,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Row(
+                                        Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             SizedBox(
                                               width: 60.w,
@@ -204,18 +216,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                             ),
                                             SizedBox(width: 15.w),
                                             Text(
-                                              task.title,
+                                              task.title.length > 18 ? task.title.replaceRange(18, null, '...') : task.title,
                                               style: Theme.of(context).textTheme.titleMedium,
                                             ),
                                           ],
                                         ),
                                         Text(
-                                          task.address,
+                                          task.address.length > 18 ? task.address.replaceRange(18, null, '...') : task.address,
+
+
                                           style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 15.sp),
                                         ),
                                         AnimatedCrossFade(
                                           secondChild: Text(
-                                            task.description,
+                                            // task.description,
+                                            task.description.length > 18 ? task.description.replaceRange(18, null, '...') : task.description,
+
+
+                                            softWrap: true,
                                             style: Theme.of(context).textTheme.titleSmall!.copyWith(fontSize: 13.sp, color: Colors.black45),
                                           ),
                                           firstChild: Container(),

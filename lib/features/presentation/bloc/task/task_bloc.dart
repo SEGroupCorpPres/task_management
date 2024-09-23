@@ -14,19 +14,15 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
   final GetTasks getTasks;
   final GetTaskById getTaskById;
+  final GetTaskByCategory getTaskByCategory;
   final CreateTask createTask;
   final UpdateTask updateTask;
   final DeleteTask deleteTask;
 
-  TaskBloc({
-    required this.getTasks,
-    required this.createTask,
-    required this.updateTask,
-    required this.deleteTask,
-    required this.getTaskById,
-  }) : super(TaskInitial()) {
+  TaskBloc({required this.getTasks, required this.createTask, required this.updateTask, required this.deleteTask, required this.getTaskById, required this.getTaskByCategory}) : super(TaskInitial()) {
     on<LoadTasks>(_onLoadTasks);
     on<GetTaskByIdEvent>(_onGetTaskById);
+    on<LoadTasksByCategory>(_onLoadTasksByCategory);
     on<AddTask>(_onAddTasks);
     on<UpdateExistingTask>(_onUpdateTasks);
     on<DeleteExistingTask>(_onDeleteTasks);
@@ -51,6 +47,16 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       } else {
         emit(TaskError());
       }
+    } catch (e) {
+      emit(TaskError());
+    }
+  }
+
+  Future<void> _onLoadTasksByCategory(LoadTasksByCategory event, Emitter<TaskState> emit) async {
+    try {
+      emit(TaskLoading());
+      final List<Task> taskList = await getTaskByCategory(event.category);
+      emit(TaskLoaded(tasks: taskList));
     } catch (e) {
       emit(TaskError());
     }

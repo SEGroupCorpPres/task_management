@@ -17,6 +17,14 @@ class GetTaskByIdEvent extends TaskEvent {
   @override
   List<Object> get props => [id];
 }
+class LoadTasksByCategory extends TaskEvent {
+  final String category;
+
+  const LoadTasksByCategory({required this.category});
+
+  @override
+  List<Object> get props => [category];
+}
 
 class AddTask extends TaskEvent {
   final Task task;

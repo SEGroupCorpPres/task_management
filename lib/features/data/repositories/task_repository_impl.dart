@@ -57,6 +57,12 @@ class TaskRepositoryImpl {
     }
   }
 
+  Future<List<Task>> getTaskByCategory(String category) async {
+    final db = await database;
+    final result = await db.query('tasks', where: 'category = ?', whereArgs: [category]);
+    return result.map((task) => Task.fromJson(task)).toList();
+  }
+
   Future<int> updateTask(Task task) async {
     final db = await database;
     return await db.update('tasks', task.toMap(), where: 'id = ?', whereArgs: [task.id]);
